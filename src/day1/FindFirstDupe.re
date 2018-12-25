@@ -1,12 +1,10 @@
-let frequencyInput = Frequency.getFrequenciesFromFile();
+let frequencyList = Utilities.fileToListByNewLines(~dir=[%bs.node __dirname], "./input.txt");
 
-let table = Hashtbl.create(Array.length(frequencyInput) / 2);
-
-let frequencyList = Array.to_list(frequencyInput);
+let table = Hashtbl.create(List.length(frequencyList) / 2);
 
 let rec findFirstDuplicate = (frequencies, current) => {
     switch(frequencies) {
-        | [] => findFirstDuplicate(Array.to_list(frequencyInput), current)
+        | [] => findFirstDuplicate(frequencyList, current)
         | [hd, ...tail] => {
             let newValue = current + Frequency.getFrequencyValue(hd);
             switch(Hashtbl.find(table, newValue)) {
@@ -20,5 +18,5 @@ let rec findFirstDuplicate = (frequencies, current) => {
     }
 }
 
-let a = findFirstDuplicate(Array.to_list(frequencyInput), 0);
+let a = findFirstDuplicate(frequencyList, 0);
 Js.log(a);
